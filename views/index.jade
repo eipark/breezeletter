@@ -3,8 +3,49 @@ extends layout
 block header
   script(src="/javascripts/pdfkit.js")
   script(src="/javascripts/blob-stream-v0.1.2.js")
+  script(src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
+  script.
+    $(document).ready(function(){
+      console.log("Ready");
+      // create a document and pipe to a blob
+      genPdf("wefqwefwefawefawef");
+      function genPdf(text) {
+
+        var doc = new PDFDocument();
+        var stream = doc.pipe(blobStream());
+        doc.fontSize(20);
+        doc.text("Title of my document", 100, 100)
+           .font('Times-Roman');
+        // and some justified text wrapped into columns
+        doc.text(text, 100, 200)
+           .font('Times-Roman', 10);
+        // end and display the document in the iframe to the right
+        doc.end();
+
+        stream.on('finish', function() {
+          document.getElementById("preview").src = stream.toBlobURL('application/pdf');
+        });
+      }
+
+      $('#editor').change(function() {
+        text = $(this).val();
+        console.log(text);
+        genPdf(text);
+      });
+      $("#update").click(function() {
+        text = $("#editor").val();
+        genPdf(text);
+      });
+
+
+
+    });
 
 block content
   h1= title
   p Send physical letters from your computer in 30 seconds. <br />No stamps, printers, or envelopes.
+  div#editor-container
+    textarea#editor
+    button#update Update
+    iframe#preview
 
