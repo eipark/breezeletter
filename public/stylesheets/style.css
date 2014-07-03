@@ -3,6 +3,34 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+textarea#editor, iframe#preview {
+  width: 400px;
+  height: 517px;
+  float: left;
+  padding: 10px;
 }
+
+#editor-container {
+  position: relative;
+}
+
+textarea#editor {
+  margin-right: 25px;
+}
+
+#update {
+  top: 2px;
+  left: 50px;
+}
+
+#send {
+  display: block;
+  border: 1px solid #333;
+  padding: 5px;
+  margin: 50px auto;
+  width: 100px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
