@@ -9,11 +9,13 @@ block header
       console.log("Ready");
       // create a document and pipe to a blob
       genPdf("wefqwefwefawefawef");
+      currText = "";
       function genPdf(text) {
+        currText = text;
 
         var doc = new PDFDocument();
         var stream = doc.pipe(blobStream());
-        doc.fontSize(20);
+        doc.fontSize(14);
         doc.text("Title of my document", 100, 100)
            .font('Times-Roman');
         // and some justified text wrapped into columns
@@ -32,10 +34,12 @@ block header
         console.log(text);
         genPdf(text);
       });
-      $("#update").click(function() {
+
+      setInterval(function() {
         text = $("#editor").val();
-        genPdf(text);
-      });
+        if (text !== currText)
+          genPdf(text);
+      }, 2000);
 
 
 
@@ -45,8 +49,9 @@ block content
   h1= title
   p Send physical letters from your computer in 30 seconds. <br />No stamps, printers, or envelopes.
   div#editor-container
-    textarea#editor
+    textarea#editor(placeholder="Letter Body Here")
     iframe#preview
     button#update Update
+
 
   a#send(href="#") Send letter!
