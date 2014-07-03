@@ -1,5 +1,9 @@
 extends layout
 
+block header
+  script(src="/javascripts/pdfkit.js")
+  script(src="/javascripts/blob-stream-v0.1.2.js")
+
 block content
   h1= title
   p Send physical letters from your computer in 30 seconds. <br />No stamps, printers, or envelopes.
