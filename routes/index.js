@@ -3,6 +3,7 @@ var router = express.Router();
 var PDFDocument = require('pdfkit')
 var Lob = require('Lob')
 var fs = require('fs')
+var stripe = require('stripe')('sk_test_4Kitylkjtu4VmOuG8nllYGwk')
 TestLob = new Lob("test_73946c981c8a199cd73fcefde1c60058536")
 
 /* GET home page. */
@@ -98,8 +99,31 @@ generatePDF2 = function() {
   // Finalize PDF file
   doc.end();
   return filename;
-
-
 };
+
+router.post('/payandsend', function(req, res) {
+  body = req.body;
+  message = "sdf";
+
+  stripe.customers.create({
+    email: body.stripeEmail,
+  }).then(function(customer) {
+    return stripe.charges.create({
+      amount: 125,
+      currency: 'usd',
+      description: "Ernie testing breezeletter",
+      customer: customer.id,
+      card: body.stripeToken
+    });
+  }).then(function(charge) {
+    // New charge created on a new customer
+    message = "success!!!!!";
+  }, function(err) {
+    // Deal with an error
+    message = "some error " + err;
+  });
+
+  res.render('confirm', { message: message });
+});
 
 module.exports = router;

@@ -27,6 +27,7 @@ block header
         stream.on('finish', function() {
           document.getElementById("preview").src = stream.toBlobURL('application/pdf');
         });
+
       }
 
       $('#editor').change(function() {
@@ -47,13 +48,11 @@ block header
 
 block content
   h1= title
-  p Send physical letters from your computer in 30 seconds. <br />No stamps, printers, or envelopes.
+  p Send physical letters from your computer in 30 seconds. <br />No signups, stamps, or printers.
   div#editor-container
     textarea#editor(placeholder="Letter Body Here")
     iframe#preview
-    button#update Update
 
-
-  a#send(href="#") Send letter!
-  form(action="", method="POST")
-    script.stripe-button(src="https://checkout.stripe.com/checkout.js", data-key="pk_test_4Kitk5nAPTrcAbHDpiCTBnif",data-amount="125" data-name="BreezeLetter", data-description="One Letter ($1.25)", data-image="http://iconbug.com/data/ff/256/22dc0b1e9ab8b25a70016fc8eb958d11.png")
+  form#send(action="/payandsend", method="POST")
+    script.stripe-button(src="https://checkout.stripe.com/checkout.js", data-key="pk_test_4Kitk5nAPTrcAbHDpiCTBnif",data-amount="125" data-name="BreezeLetter", data-description="One Letter ($1.25)", data-image="http://iconbug.com/data/ff/256/22dc0b1e9ab8b25a70016fc8eb958d11.png", data-label="Pay and Send!")
+    input(type="hidden", name="foo", value="bar")
